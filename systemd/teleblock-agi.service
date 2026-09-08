@@ -1,0 +1,24 @@
+[Unit]
+Description=Teleblock FastAGI Server
+After=network.target docker-asterisk.service
+Wants=docker-asterisk.service
+
+[Service]
+Type=simple
+User=asterisk
+Group=asterisk
+WorkingDirectory=/opt/teleblock/app
+EnvironmentFile=/opt/teleblock/app/.env
+ExecStart=/opt/teleblock/venv/bin/python -m agi.server
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+# Harden the service
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ReadWritePaths=/var/lib/teleblock /var/log/teleblock
+
+[Install]
+WantedBy=multi-user.target

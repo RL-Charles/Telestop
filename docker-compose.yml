@@ -1,0 +1,43 @@
+---
+# Teleblock — docker-compose.yml
+# Run with: docker compose up -d --build
+# Requires Docker 26+ on Raspberry Pi OS Bookworm (arm64)
+#
+# network_mode: host is mandatory — SIP signalling and RTP media from the
+# HT813 direct-link interface uses the Pi's real LAN IP. Port mapping won't work
+# for SIP because the ATA needs to see the Pi's real address in SIP headers.
+
+name: teleblock
+
+services:
+  asterisk:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: teleblock-asterisk:20
+    container_name: asterisk
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      # Asterisk config (project-managed, read-only)
+      - ./asterisk:/etc/asterisk/teleblock:ro
+      # Sounds (challenge prompts, blocked message)
+      - /var/lib/asterisk/sounds/teleblock:/var/lib/asterisk/sounds/teleblock
+      # Music on Hold (ringback tone)
+      - /var/lib/asterisk/moh/ringback:/var/lib/asterisk/moh/ringback
+      # Shared call database (also used by host FastAGI service)
+      - /var/lib/teleblock:/var/lib/teleblock
+      # Logs
+      - /var/log/teleblock:/var/log/teleblock
+      - /var/log/asterisk:/var/log/asterisk
+    environment:
+      # Loaded by asterisk.conf #exec / logger.conf etc.
+      - TZ=Europe/London
+    # Real-time priority for audio — matches rtprio=50 in asterisk.conf
+    ulimits:
+      rtprio: 50
+      memlock: -1
+    # Needed for host networking + real-time scheduling on Pi
+    cap_add:
+      - SYS_NICE
+      - NET_ADMIN

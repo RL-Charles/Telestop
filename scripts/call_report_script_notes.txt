@@ -1,0 +1,12 @@
+Full report (summary + blocked + trusted + daily + all numbers):
+
+./scripts/call_report.sh
+
+Today's calls only:
+
+./scripts/call_report.sh --today
+
+
+Blocked numbers only:
+
+./scripts/call_report.sh --blocked

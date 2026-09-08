@@ -1,0 +1,30 @@
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+.telestop.local
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Runtime data and logs
+*.db
+*.db-shm
+*.db-wal
+*.sqlite*
+*.log
+*.pid
+call_report.txt
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+mark.md

@@ -1,0 +1,21 @@
+# FastAGI server — pure asyncio, no external AGI library needed
+# (pyst2 / asterisk-agi are not available for Python 3.11+ on arm64)
+
+# Database
+# sqlite3 is in stdlib — no extra package needed
+
+# Configuration
+python-dotenv>=1.0.0
+
+# Audio processing (optional, for offline DTMF analysis)
+pydub>=0.25.1
+librosa>=0.10.0
+
+# Utilities
+click>=8.1.0          # CLI for blocklist.py and report.py
+gtts>=2.5.0           # Google TTS — used to generate audio prompts (challenge, blocked)
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.23.0
+pytest-cov>=4.1.0

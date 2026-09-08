@@ -1,0 +1,5 @@
+# Copy this file to .telestop.local and adjust it for your device.
+PI_HOST=telestop-pi
+PI_SOURCE_DIR=/srv/telestop/source
+PI_APP_DIR=/opt/teleblock/app
+PI_TEST_PYTHON=/opt/teleblock/venv/bin/python
